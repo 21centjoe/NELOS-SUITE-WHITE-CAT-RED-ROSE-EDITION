@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>White Cat Red Rose (WCRR) by Joseph La Follette</title>
-<link rel="stylesheet" href="css/nelos.css">
+<link rel="stylesheet" href="nelos.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -24,7 +24,7 @@
 </header>
 
 <div class="security-banner" data-alt="This is always true, in tutorial mode or not — it's not a warning you can turn off.">
-  <b>Honest security note:</b> WCRR protects your data while it's sitting still — encrypted, self-healing, verified. It cannot protect data while it's being actively used on a computer you don't trust. Never enter a passphrase on a device you suspect is compromised.
+  <b>Honest security note:</b> WCRR protects your data while it's sitting still — encrypted, self-healing, verified. It cannot protect data while it's being actively used on a computer you don't tru[...]
 </div>
 
 <div class="nelos-workspace">
@@ -38,7 +38,7 @@
     </div>
     <details class="how-it-works">
       <summary>How this works</summary>
-      <p>Your file is split into pieces, one per vertex of a real 60-vertex fullerene graph (the same shape as a soccer ball / Buckminsterfullerene molecule). The 32 faces each store a backup value, so losing a piece can often be repaired from its neighbors — verified by checksum, never assumed.</p>
+      <p>Your file is split into pieces, one per vertex of a real 60-vertex fullerene graph (the same shape as a soccer ball / Buckminsterfullerene molecule). The 32 faces each store a backup value, s[...]
     </details>
 
     <div class="panel-heading">Add Files</div>
@@ -46,26 +46,26 @@
     <input type="file" id="fileInput" multiple>
 
     <div class="panel-heading">Encode Selected</div>
-    <input type="password" id="encryptPassword" placeholder="optional passphrase (AES-256-GCM)" data-alt="Leave blank for no encryption. If you set one, remember it — it cannot be recovered if lost.">
+    <input type="password" id="encryptPassword" placeholder="optional passphrase (AES-256-GCM)" data-alt="Leave blank for no encryption. If you set one, remember it — it cannot be recovered if lost.[...]
     <label style="font-size:11px; color:var(--text-dim); display:flex; align-items:center; gap:6px; margin-top:4px;">
       <input type="checkbox" id="compressToggle" checked> gzip compress before sharding
     </label>
     <label style="font-size:11px; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
       <input type="checkbox" id="pngStegoToggle"> hide inside a real .nelos.png image
     </label>
-    <button class="btn primary" id="encodeSelectedBtn" style="margin-top:6px;" data-alt="Select a file in the Explorer first, then click this to protect it and download the result.">Encode → Download Vault</button>
+    <button class="btn primary" id="encodeSelectedBtn" style="margin-top:6px;" data-alt="Select a file in the Explorer first, then click this to protect it and download the result.">Encode → Downloa[...]
     <details class="how-it-works">
       <summary>How this works</summary>
-      <p>Real AES-256-GCM encryption (the same standard used by full-disk encryption tools), real gzip compression, and the fullerene self-healing above — all three are independent, tested pieces, not decoration.</p>
+      <p>Real AES-256-GCM encryption (the same standard used by full-disk encryption tools), real gzip compression, and the fullerene self-healing above — all three are independent, tested pieces, n[...]
     </details>
 
     <div class="panel-heading">USB / Folder Line</div>
     <form id="usbPromptForm">
-      <input type="text" id="usbCommand" placeholder="mount · write &lt;name&gt; · list · help" data-alt="Type 'mount' to select a USB drive or folder, then 'write &lt;filename&gt;' to save a file there directly. Chrome/Edge/ChromeOS only.">
+      <input type="text" id="usbCommand" placeholder="mount · write &lt;name&gt; · list · help" data-alt="Type 'mount' to select a USB drive or folder, then 'write &lt;filename&gt;' to save a file [...]
     </form>
     <details class="how-it-works">
       <summary>How this works</summary>
-      <p>Uses your browser's real File System Access permission dialog — the same one Chrome uses for any site that asks to save files to a folder you choose. Nothing happens without you picking the folder yourself.</p>
+      <p>Uses your browser's real File System Access permission dialog — the same one Chrome uses for any site that asks to save files to a folder you choose. Nothing happens without you picking the[...]
     </details>
   </div>
 
@@ -92,9 +92,9 @@
     <div class="stage-view" id="view-media">
       <div class="media-well" id="mediaWell" style="position:relative;"></div>
       <div style="margin-top:10px; display:flex; gap:8px;">
-        <button class="btn" id="elaBtn" style="display:none;" data-alt="A real forensic heuristic (Error Level Analysis) — a signal worth noticing, not a verdict.">Run Tamper Heuristic (ELA)</button>
+        <button class="btn" id="elaBtn" style="display:none;" data-alt="A real forensic heuristic (Error Level Analysis) — a signal worth noticing, not a verdict.">Run Tamper Heuristic (ELA)</button[...]
         <button class="btn" id="selfHealBtn" data-alt="Re-checks every stored piece against its backup and repairs what it can.">Run Self-Heal Scan</button>
-        <button class="btn" id="openDefaultBtn" style="display:none;" data-alt="Downloads the file and lets your browser's own download bar open it in your computer's normal app for this file type.">Open in Default Player</button>
+        <button class="btn" id="openDefaultBtn" style="display:none;" data-alt="Downloads the file and lets your browser's own download bar open it in your computer's normal app for this file type.">O[...]
       </div>
     </div>
 
@@ -184,9 +184,9 @@
   </div>
 </div>
 
-<script src="js/nelos-core.js"></script>
-<script src="js/nelos-ui.js"></script>
-<script src="js/nelos-viz.js"></script>
-<script src="js/nelos-applets.js"></script>
+<script src="nelos-core.js"></script>
+<script src="nelos-ui.js"></script>
+<script src="nelos-viz.js"></script>
+<script src="nelos-applets.js"></script>
 </body>
 </html>
