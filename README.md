@@ -1,6 +1,8 @@
 # NELOS-SUITE-WHITE-CAT-RED-ROSE-EDITION
 Advanced Vault Suite with ENCRYPTION AND SELF-HEALING for your partitioned drive/USB
 
+YES YOU CAN PURCHASE THIS TO MAKE YOUR OWN VERSION 
+FOR licensing opportunities, please contact 21centjoe@gmail.com
 
 # NELOS by Joseph La Follette
 
