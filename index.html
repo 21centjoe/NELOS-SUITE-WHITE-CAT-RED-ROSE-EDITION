@@ -33,7 +33,7 @@
   <div class="nelos-panel sidebar">
     <div class="panel-heading">Structure</div>
     <div class="structure-panel" data-alt="The real graph your data is actually stored on — drag to look around.">
-      <div id="structureCanvas" style="width:100%; height:100%;"></div>
+      <div id="structureCanvas"></div>
       <div class="structure-label">C60 outer · C20 core — live, real graph data</div>
     </div>
     <details class="how-it-works">
@@ -61,7 +61,7 @@
 
     <div class="panel-heading">USB / Folder Line</div>
     <form id="usbPromptForm">
-      <input type="text" id="usbCommand" placeholder="mount · write &lt;name&gt; · list · help" data-alt="Type 'mount' to select a USB drive or folder, then 'write &lt;filename&gt;' to save a file [...]
+      <input type="text" id="usbCommand" placeholder="mount · write <name> · list · help" data-alt="Type 'mount' to select a USB drive or folder, then 'write <filename>' to save a file [...]
     </form>
     <details class="how-it-works">
       <summary>How this works</summary>
@@ -185,8 +185,8 @@
 </div>
 
 <script src="nelos-core.js"></script>
-<script src="nelos-ui.js"></script>
 <script src="nelos-viz.js"></script>
+<script src="nelos-ui.js"></script>
 <script src="nelos-applets.js"></script>
 </body>
 </html>
