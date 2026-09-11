@@ -7,14 +7,38 @@
  * separate decorative model; it's the real structure, visualized.
  */
 
+// Wait for graphs to be available before initializing
+function waitForGraphs(callback, maxAttempts = 50) {
+  if (window.Nelos && window.Nelos.GRAPH_C60 && window.Nelos.GRAPH_C20) {
+    callback();
+  } else if (maxAttempts > 0) {
+    setTimeout(() => waitForGraphs(callback, maxAttempts - 1), 50);
+  } else {
+    console.error('Graphs not loaded');
+  }
+}
+
 // ---------------- structure panel: nested C60 (outer) + C20 (inner) ----------------
-(function initStructurePanel() {
+function initStructurePanel() {
   const container = document.getElementById('structureCanvas');
+  if (!container) {
+    console.error('structureCanvas container not found');
+    return;
+  }
+  
+  // Ensure container has proper dimensions
+  container.style.width = '100%';
+  container.style.height = '100%';
+  
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
+  const width = container.clientWidth || 250;
+  const height = container.clientHeight || 220;
+  
+  const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 2000);
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setSize(width, height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.domElement.style.display = 'block';
   container.appendChild(renderer.domElement);
 
   scene.add(new THREE.AmbientLight(0x3a5570, 1.2));
@@ -50,8 +74,8 @@
     });
   }
 
-  addGraphMesh(Nelos.GRAPH_C60, 9, 0x3ddad0, 0.5);
-  addGraphMesh(Nelos.GRAPH_C20, 4.2, 0xd4af37, 0.7); // inner core, gold — the branding accent, structurally meaningful here
+  addGraphMesh(window.Nelos.GRAPH_C60, 9, 0x3ddad0, 0.5);
+  addGraphMesh(window.Nelos.GRAPH_C20, 4.2, 0xd4af37, 0.7); // inner core, gold — the branding accent, structurally meaningful here
 
   let theta = 0.5, phi = 1.1, radius = 60;
   let isDragging = false, lastX = 0, lastY = 0, autoRotate = true;
@@ -79,11 +103,18 @@
   animate();
 
   window.addEventListener('resize', () => {
-    camera.aspect = container.clientWidth / container.clientHeight;
+    const newWidth = container.clientWidth || 250;
+    const newHeight = container.clientHeight || 220;
+    camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(newWidth, newHeight);
   });
-})();
+}
+
+// Wait for core to be loaded, then init
+waitForGraphs(() => {
+  initStructurePanel();
+});
 
 // ---------------- genesis tour: real facts, progressive build-up ----------------
 const TOUR_STEPS = [
@@ -94,27 +125,27 @@ const TOUR_STEPS = [
   },
   {
     title: "Edges connect",
-    body: "Vertices connect to exactly 3 neighbors each — no more, no less. This isn't a stylistic choice; it's what makes a closed, buckminsterfullerene-style cage possible. The full outer structure has 60 vertices and 90 edges, verified by construction, not assumed.",
+    body: "Vertices connect to exactly 3 neighbors each — no more, no less. This isn't a stylistic choice; it's what makes a closed, buckminsterfullerene-style cage possible. The full outer stru[...]",
     stage: 'edges'
   },
   {
     title: "Faces close the cage",
-    body: "Where edges meet, faces form: 12 pentagons and 20 hexagons, 32 faces total. Every single vertex touches exactly 3 of them — that property is what makes redundancy possible: lose one node, and up to 3 different faces each hold enough information to rebuild it.",
+    body: "Where edges meet, faces form: 12 pentagons and 20 hexagons, 32 faces total. Every single vertex touches exactly 3 of them — that property is what makes redundancy possible: lose one [...]",
     stage: 'faces'
   },
   {
     title: "Why the math holds",
-    body: "Each face stores a simple XOR of its members' data. If exactly one member goes bad, the others plus that stored value reconstruct it exactly — verified by CRC32, not guessed. This is real erasure coding, tested on this exact structure by deliberately corrupting data and confirming byte-for-byte recovery.",
+    body: "Each face stores a simple XOR of its members' data. If exactly one member goes bad, the others plus that stored value reconstruct it exactly — verified by CRC32, not guessed. This is[...]",
     stage: 'parity'
   },
   {
     title: "The nested core",
-    body: "Inside the 60-node outer shell sits a second, independent structure: a 20-node dodecahedron (gold), protecting the vault's own manifest — the one piece of data that, if lost, would make everything else unreadable. Two independent geometries, each doing a different job.",
+    body: "Inside the 60-node outer shell sits a second, independent structure: a 20-node dodecahedron (gold), protecting the vault's own manifest — the one piece of data that, if lost, would m[...]",
     stage: 'nested'
   },
   {
     title: "Honest limits",
-    body: "This isn't infinite magic. The math has a real ceiling: this structure can't guarantee recovery past a certain number of simultaneous failures, because there are only 32 parity equations to work with. NELOS tells you plainly when it's past that point — it never claims a recovery it can't verify.",
+    body: "This isn't infinite magic. The math has a real ceiling: this structure can't guarantee recovery past a certain number of simultaneous failures, because there are only 32 parity equatio[...]",
     stage: 'limits'
   }
 ];
@@ -130,12 +161,13 @@ function initTourScene() {
   tourCamera.position.set(0,0,50);
   tourRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   tourRenderer.setSize(stage.clientWidth, stage.clientHeight);
+  tourRenderer.domElement.style.display = 'block';
   stage.appendChild(tourRenderer.domElement);
   tourScene.add(new THREE.AmbientLight(0x3ddad0, 1.5));
   tourGroup = new THREE.Group();
   tourScene.add(tourGroup);
 
-  const G = Nelos.GRAPH_C60, F = Nelos.FACES_C60;
+  const G = window.Nelos.GRAPH_C60, F = window.Nelos.FACES_C60;
   const scale = 9;
 
   // single point (first vertex)
@@ -190,7 +222,7 @@ function initTourScene() {
 
   // inner C20 core (hidden until 'nested' step)
   const core = new THREE.Group(); core.name = 'core'; core.visible = false;
-  const G20 = Nelos.GRAPH_C20, scale20 = 4.2;
+  const G20 = window.Nelos.GRAPH_C20, scale20 = 4.2;
   const posC20 = []; const seenC20 = new Set();
   G20.adjacency.forEach((neigh,i)=>neigh.forEach(j=>{
     const key=Math.min(i,j)+'_'+Math.max(i,j); if(seenC20.has(key)) return; seenC20.add(key);
@@ -231,10 +263,10 @@ function applyTourStage(stage) {
   // parity step: dim all faces except 3 covering one chosen vertex, to show the real relationship
   facesGroup.children.forEach(mesh => {
     if (stage === 'parity') {
-      const covers = Nelos.FACES_C60[mesh.userData.faceIdx].includes(0);
+      const covers = window.Nelos.FACES_C60[mesh.userData.faceIdx].includes(0);
       mesh.material.opacity = covers ? 0.35 : 0.03;
     } else {
-      const isPenta = Nelos.FACES_C60[mesh.userData.faceIdx].length === 5;
+      const isPenta = window.Nelos.FACES_C60[mesh.userData.faceIdx].length === 5;
       mesh.material.opacity = isPenta ? 0.12 : 0.07;
     }
   });
@@ -254,8 +286,10 @@ function openTour() {
   document.getElementById('tourOverlay').classList.add('open');
   document.getElementById('tourDots').innerHTML = TOUR_STEPS.map((_,i)=>`<div class="d"></div>`).join('');
   tourIndex = 0;
-  initTourScene();
-  renderTourStep();
+  waitForGraphs(() => {
+    initTourScene();
+    renderTourStep();
+  });
 }
 function closeTour() {
   document.getElementById('tourOverlay').classList.remove('open');
